@@ -182,7 +182,7 @@ void main(void)
         rdata = (SpiaRegs.SPIRXBUF & 0xFF) << 8;
         spi_xmit(0x00); // clock out 8 bits for LSB
         rdata |= SpiaRegs.SPIRXBUF & 0xFF;
-        mawAdcMeasurements[0] = rdata;
+        mawAdcMeasurements[0] = rdata; // Thermocouple data
         EALLOW;
         GpioDataRegs.GPASET.bit.GPIO19 = 1;
 
@@ -211,7 +211,7 @@ void main(void)
         rdata = (SpiaRegs.SPIRXBUF & 0xFF) << 8;
         spi_xmit(0x00); // clock out 8 bits for LSB
         rdata |= SpiaRegs.SPIRXBUF & 0xFF;
-        mawAdcMeasurements[1] = rdata;
+        mawAdcMeasurements[1] = rdata; // Internal temp data
         EALLOW;
         GpioDataRegs.GPASET.bit.GPIO19 = 1;
 
@@ -226,18 +226,6 @@ void main(void)
 
         msg = "value: ";
         scia_msg(msg);
-
-        char readArray[2];
-
-        uint16_t value = 12345;
-        uint16_t hishifted = rdata >> 8;
-        uint16_t himasked = hishifted & 0x003F; //remember the temp value eists of
-                                                //only 14 bits info, hence the "3F"
-
-        uint16_t lomasked = rdata & 0x00FF;
-
-        readArray[0] = himasked;
-        readArray[1] = lomasked;
 
 
         /*readArray[0] = msb;
@@ -259,14 +247,16 @@ void main(void)
 
         char msgg[20];
         //ltoa(readArray[0], msgg, 2);
-        ltoa(mawAdcMeasurements[0], msgg, 2);
+        int iAdcCode = (int)mawAdcMeasurements[0];
+        double dTcVoltage = ((double)iAdcCode * 2.048/32) / 32768;
+        ltoa((int)(dTcVoltage * 1000), msgg, 10);
         scia_msg(msgg);
 
         msg = "   ";
         scia_msg(msg);
 
         //ltoa(readArray[1], msgg, 2);
-        ltoa(mawAdcMeasurements[1], msgg, 2);
+        ltoa((int)mawAdcMeasurements[1], msgg, 10);
         scia_msg(msgg);
 
         msg = "\r\n";
