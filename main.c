@@ -38,7 +38,7 @@
 // Function Prototypes
 //
 //void delay_loop(void);
-void spi_xmit(Uint16 a);
+void spi_xmit(unsigned char a);
 void spi_fifo_init(void);
 void spi_init(void);
 void error(void);
@@ -150,11 +150,11 @@ void main(void)
     /*EALLOW;
      GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;*/
     //DELAY_US(1E6);
-    spi_xmit(0x4300);
-    spi_xmit(0x0A00);
-    spi_xmit(0x0000);
-    spi_xmit(0x1000);
-    spi_xmit(0x0000);
+    spi_xmit(0x43);
+    spi_xmit(0x0A);
+    spi_xmit(0x00);
+    spi_xmit(0x10);
+    spi_xmit(0x00);
     //DELAY_US(100000);
     /*EALLOW;
      GpioDataRegs.GPASET.bit.GPIO19 = 1;*/
@@ -167,8 +167,8 @@ void main(void)
 
         DELAY_US(5E5);
 
-        spi_xmit(0x4400); //WREG starting at register 01h, one byte
-        spi_xmit(0x0000); // Register 1: Data Rate=20SPS, Normal mode, Single shot conversion,
+        spi_xmit(0x44); //WREG starting at register 01h, one byte
+        spi_xmit(0x00); // Register 1: Data Rate=20SPS, Normal mode, Single shot conversion,
                           // Temp sensor and BCS disabled
 
         /*EALLOW;
@@ -178,7 +178,7 @@ void main(void)
          GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;*/
 
         //DELAY_US(1E6);
-        spi_xmit(0x0800); // Send START/SYNC command to start conversion
+        spi_xmit(0x08); // Send START/SYNC command to start conversion
 
         //DELAY_US(1E6);
 
@@ -187,9 +187,9 @@ void main(void)
 
         DELAY_US(51000); // Wait for conversion to be done
 
-        spi_xmit(0x1000); // RDATA command to read data from thermocouple
-        spi_xmit(0x0000); // clock out 16 bits
-        spi_xmit(0x0000);
+        spi_xmit(0x10); // RDATA command to read data from thermocouple
+        spi_xmit(0x00); // clock out 16 bits
+        spi_xmit(0x00);
 
         ///DELAY_US(1E6);
 
@@ -200,22 +200,22 @@ void main(void)
 
         //DELAY_US(1E6);
 
-        spi_xmit(0x4400);
-        spi_xmit(0x0200);
+        spi_xmit(0x44);
+        spi_xmit(0x02);
 
         //DELAY_US(1E6);
 
-        spi_xmit(0x0800);  // Send START/SYNC command to start conversion
+        spi_xmit(0x08);  // Send START/SYNC command to start conversion
 
         DELAY_US(51000);
 
         //DELAY_US(1E6);
 
-        spi_xmit(0x1000);  // RDATA command to read data from thermocouple
-        spi_xmit(0x0000);  // clock out 16 bits
-        msb = SpiaRegs.SPIRXBUF;
-        spi_xmit(0x0000);
-        lsb = SpiaRegs.SPIRXBUF;
+        spi_xmit(0x10);  // RDATA command to read data from thermocouple
+        spi_xmit(0x00);  // clock out 16 bits
+        //msb = SpiaRegs.SPIRXBUF;
+        spi_xmit(0x00);
+        //lsb = SpiaRegs.SPIRXBUF;
 
         //DELAY_US(1E6);
 
@@ -238,12 +238,12 @@ void main(void)
 
         uint16_t lomasked = rdata & 0x00FF;
 
-        /*readArray[0] = himasked;
-        readArray[1] = lomasked;*/
+        readArray[0] = himasked;
+        readArray[1] = lomasked;
 
 
-        readArray[0] = msb;
-        readArray[1] = lsb;
+        /*readArray[0] = msb;
+        readArray[1] = lsb;*/
 
         /*scia_xmit(readArray[0]);
          msg = "   ";
@@ -311,9 +311,9 @@ for (;;)
 //
 // spi_xmit - Transmit value via SPI
 //
-void spi_xmit(Uint16 a)
+void spi_xmit(unsigned char a)
 {
-SpiaRegs.SPITXBUF = a;
+SpiaRegs.SPITXBUF = (Uint16)a << 8;
 }
 
 //
