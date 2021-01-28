@@ -51,6 +51,7 @@ void scia_msg(char *msg);
 // Globals
 //
 Uint16 LoopCount;
+Uint16 mawAdcMeasurements[2] = {0}; // initialize global buffer for ADC measurements
 
 #define CHECK_BIT(var,pos) ((var) & (1<<(pos)))
 
@@ -142,80 +143,77 @@ void main(void)
     scia_fifo_init();       // Initialize the SCI FIFO
     scia_echoback_init();   // Initialize SCI for echoback
 
-    /*EALLOW;
-     GpioDataRegs.GPASET.bit.GPIO19 = 1;*/
+    EALLOW;
+    GpioDataRegs.GPASET.bit.GPIO19 = 1;
+    DELAY_US(1E5);
 
     scia_msg("Vanaf hier starten de metingen! \r\n\r\n\r\n");
 
-    /*EALLOW;
-     GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;*/
+    EALLOW;
+    GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;
     //DELAY_US(1E6);
     spi_xmit(0x43);
     spi_xmit(0x0A);
     spi_xmit(0x00);
     spi_xmit(0x10);
     spi_xmit(0x00);
-    //DELAY_US(100000);
-    /*EALLOW;
-     GpioDataRegs.GPASET.bit.GPIO19 = 1;*/
+    EALLOW;
+    GpioDataRegs.GPASET.bit.GPIO19 = 1;
 
     //while(!SpiaRegs.SPISTS.INT_FLAG); //Wait till SPI complete transmission
     for (;;)
     {
-        /*EALLOW;
-         GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;*/
-
         DELAY_US(5E5);
 
+        EALLOW;
+        GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;
         spi_xmit(0x44); //WREG starting at register 01h, one byte
-        spi_xmit(0x00); // Register 1: Data Rate=20SPS, Normal mode, Single shot conversion,
-                          // Temp sensor and BCS disabled
+        spi_xmit(0x00); // Register 1: Data Rate=20SPS, Normal mode, Single shot conversion, Temp sensor and BCS disabled
+        EALLOW;
+        GpioDataRegs.GPASET.bit.GPIO19 = 1;
 
-        /*EALLOW;
-         GpioDataRegs.GPASET.bit.GPIO19 = 1;*/
-
-        /*EALLOW;
-         GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;*/
-
-        //DELAY_US(1E6);
+        DELAY_US(1E5);
+        EALLOW;
+        GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;
         spi_xmit(0x08); // Send START/SYNC command to start conversion
-
-        //DELAY_US(1E6);
-
-        /*EALLOW;
-         GpioDataRegs.GPASET.bit.GPIO19 = 1;*/
-
         DELAY_US(51000); // Wait for conversion to be done
-
-        spi_xmit(0x10); // RDATA command to read data from thermocouple
-        spi_xmit(0x00); // clock out 16 bits
-        spi_xmit(0x00);
+        //spi_xmit(0x10); // RDATA command to read data from thermocouple
+        spi_xmit(0x00);  // clock out 8 bits for MSB
+        rdata = (SpiaRegs.SPIRXBUF & 0xFF) << 8;
+        spi_xmit(0x00); // clock out 8 bits for LSB
+        rdata |= SpiaRegs.SPIRXBUF & 0xFF;
+        mawAdcMeasurements[0] = rdata;
+        EALLOW;
+        GpioDataRegs.GPASET.bit.GPIO19 = 1;
 
         ///DELAY_US(1E6);
 
         //while(SpiaRegs.SPIFFRX.bit.RXFFST !=1) { }
 
-        rdata = SpiaRegs.SPIRXBUF;
+        //rdata = SpiaRegs.SPIRXBUF;
         //SpiaRegs.SPIFFRX.bit.RXFFINTCLR=1;  // Clear Interrupt flag
 
-        //DELAY_US(1E6);
-
+        DELAY_US(1E5);
+        EALLOW;
+        GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;
         spi_xmit(0x44);
         spi_xmit(0x02);
+        EALLOW;
+        GpioDataRegs.GPASET.bit.GPIO19 = 1;
 
-        //DELAY_US(1E6);
-
+        DELAY_US(1E5);
+        EALLOW;
+        GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;
         spi_xmit(0x08);  // Send START/SYNC command to start conversion
-
         DELAY_US(51000);
-
-        //DELAY_US(1E6);
-
-        spi_xmit(0x10);  // RDATA command to read data from thermocouple
-        spi_xmit(0x00);  // clock out 16 bits
-        //msb = SpiaRegs.SPIRXBUF;
-        spi_xmit(0x00);
-        //lsb = SpiaRegs.SPIRXBUF;
+        //spi_xmit(0x10);  // RDATA command to read data from thermocouple
+        spi_xmit(0x00);  // clock out 8 bits for MSB
+        rdata = (SpiaRegs.SPIRXBUF & 0xFF) << 8;
+        spi_xmit(0x00); // clock out 8 bits for LSB
+        rdata |= SpiaRegs.SPIRXBUF & 0xFF;
+        mawAdcMeasurements[1] = rdata;
+        EALLOW;
+        GpioDataRegs.GPASET.bit.GPIO19 = 1;
 
         //DELAY_US(1E6);
 
@@ -223,7 +221,7 @@ void main(void)
 
         //DELAY_US(1E5);
 
-        rdata = SpiaRegs.SPIRXBUF;
+        //rdata = SpiaRegs.SPIRXBUF;
         //SpiaRegs.SPIFFRX.bit.RXFFINTCLR=1;  // Clear Interrupt flag
 
         msg = "value: ";
@@ -260,13 +258,15 @@ void main(void)
         //scia_msg(msg);
 
         char msgg[20];
-        ltoa(readArray[0], msgg, 2);
+        //ltoa(readArray[0], msgg, 2);
+        ltoa(mawAdcMeasurements[0], msgg, 2);
         scia_msg(msgg);
 
         msg = "   ";
         scia_msg(msg);
 
-        ltoa(readArray[1], msgg, 2);
+        //ltoa(readArray[1], msgg, 2);
+        ltoa(mawAdcMeasurements[1], msgg, 2);
         scia_msg(msgg);
 
         msg = "\r\n";
@@ -302,10 +302,10 @@ void main(void)
 //
 void error(void)
 {
-asm("     ESTOP0");
-// Test failed!! Stop!
-for (;;)
-    ;
+    asm("     ESTOP0");
+    // Test failed!! Stop!
+    for (;;)
+        ;
 }
 
 //
@@ -313,7 +313,8 @@ for (;;)
 //
 void spi_xmit(unsigned char a)
 {
-SpiaRegs.SPITXBUF = (Uint16)a << 8;
+    SpiaRegs.SPITXBUF = (Uint16)a << 8;
+    DELAY_US(1E2);
 }
 
 //
@@ -321,25 +322,25 @@ SpiaRegs.SPITXBUF = (Uint16)a << 8;
 //
 void spi_fifo_init()
 {
-//
-// Initialize SPI FIFO registers
-//
-/*
- * SPIFFTX
- * -------
- * SPIRST: 1 - fifo can resume tx/rx
- * SPIFFENA: 1 - fifo enhancements enabled
- * TXFIFO: 1 - release from reset
- *
- */
-SpiaRegs.SPIFFTX.all = 0xE040;
-SpiaRegs.SPIFFRX.all = 0x2044;
-SpiaRegs.SPIFFCT.all = 0x0;
+    //
+    // Initialize SPI FIFO registers
+    //
+    /*
+     * SPIFFTX
+     * -------
+     * SPIRST: 1 - fifo can resume tx/rx
+     * SPIFFENA: 1 - fifo enhancements enabled
+     * TXFIFO: 1 - release from reset
+     *
+     */
+    SpiaRegs.SPIFFTX.all = 0xE040;
+    SpiaRegs.SPIFFRX.all = 0x2044;
+    SpiaRegs.SPIFFCT.all = 0x0;
 
-//
-// Initialize core SPI registers
-//
-InitSpi();
+    //
+    // Initialize core SPI registers
+    //
+    InitSpi();
 }
 
 //
@@ -348,29 +349,29 @@ InitSpi();
 //
 void scia_echoback_init()
 {
-//
-// Note: Clocks were turned on to the SCIA peripheral
-// in the InitSysCtrl() function
-//
+    //
+    // Note: Clocks were turned on to the SCIA peripheral
+    // in the InitSysCtrl() function
+    //
 
-SciaRegs.SCICCR.all = 0x0007;   // 1 stop bit,  No loopback
-                                // No parity,8 char bits,
-                                // async mode, idle-line protocol
-SciaRegs.SCICTL1.all = 0x0003;  // enable TX, RX, internal SCICLK,
-                                // Disable RX ERR, SLEEP, TXWAKE
-SciaRegs.SCICTL2.all = 0x0003;
-SciaRegs.SCICTL2.bit.TXINTENA = 1;
-SciaRegs.SCICTL2.bit.RXBKINTENA = 1;
+    SciaRegs.SCICCR.all = 0x0007;   // 1 stop bit,  No loopback
+                                    // No parity,8 char bits,
+                                    // async mode, idle-line protocol
+    SciaRegs.SCICTL1.all = 0x0003;  // enable TX, RX, internal SCICLK,
+                                    // Disable RX ERR, SLEEP, TXWAKE
+    SciaRegs.SCICTL2.all = 0x0003;
+    SciaRegs.SCICTL2.bit.TXINTENA = 1;
+    SciaRegs.SCICTL2.bit.RXBKINTENA = 1;
 
-//
-// SCIA at 9600 baud
-// @LSPCLK = 50 MHz (200 MHz SYSCLK) HBAUD = 0x02 and LBAUD = 0x8B.
-// @LSPCLK = 30 MHz (120 MHz SYSCLK) HBAUD = 0x01 and LBAUD = 0x86.
-//
-SciaRegs.SCIHBAUD.all = 0x0002;
-SciaRegs.SCILBAUD.all = 0x008B;
+    //
+    // SCIA at 9600 baud
+    // @LSPCLK = 50 MHz (200 MHz SYSCLK) HBAUD = 0x02 and LBAUD = 0x8B.
+    // @LSPCLK = 30 MHz (120 MHz SYSCLK) HBAUD = 0x01 and LBAUD = 0x86.
+    //
+    SciaRegs.SCIHBAUD.all = 0x0002;
+    SciaRegs.SCILBAUD.all = 0x008B;
 
-SciaRegs.SCICTL1.all = 0x0023;  // Relinquish SCI from Reset
+    SciaRegs.SCICTL1.all = 0x0023;  // Relinquish SCI from Reset
 }
 
 //
@@ -378,10 +379,11 @@ SciaRegs.SCICTL1.all = 0x0023;  // Relinquish SCI from Reset
 //
 void scia_xmit(int a)
 {
-while (SciaRegs.SCIFFTX.bit.TXFFST != 0)
-{
-}
-SciaRegs.SCITXBUF.all = a;
+    while (SciaRegs.SCIFFTX.bit.TXFFST != 0)
+    {
+        // wait for empty fifo
+    }
+    SciaRegs.SCITXBUF.all = a;
 }
 
 //
@@ -389,13 +391,13 @@ SciaRegs.SCITXBUF.all = a;
 //
 void scia_msg(char *msg)
 {
-int i;
-i = 0;
-while (msg[i] != '\0')
-{
-    scia_xmit(msg[i]);
-    i++;
-}
+    int i;
+    i = 0;
+    while (msg[i] != '\0')
+    {
+        scia_xmit(msg[i]);
+        i++;
+    }
 }
 
 //
@@ -403,9 +405,9 @@ while (msg[i] != '\0')
 //
 void scia_fifo_init()
 {
-SciaRegs.SCIFFTX.all = 0xE040;
-SciaRegs.SCIFFRX.all = 0x2044;
-SciaRegs.SCIFFCT.all = 0x0;
+    SciaRegs.SCIFFTX.all = 0xE040;
+    SciaRegs.SCIFFRX.all = 0x2044;
+    SciaRegs.SCIFFCT.all = 0x0;
 }
 
 //

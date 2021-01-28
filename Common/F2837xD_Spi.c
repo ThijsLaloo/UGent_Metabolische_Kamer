@@ -144,8 +144,9 @@ void InitSpiaGpio()
     //GpioCtrlRegs.GPAMUX2.bit.GPIO17 = 1; // Configure GPIO17 as SPISOMIA
 //  GpioCtrlRegs.GPAMUX1.bit.GPIO3 = 2;  // Configure GPIO3 as SPISOMIA
     GpioCtrlRegs.GPAMUX2.bit.GPIO18 = 1; // Configure GPIO18 as SPICLKA
-    //GpioCtrlRegs.GPADIR.bit.GPIO19 = 1;
-    GpioCtrlRegs.GPAMUX2.bit.GPIO19 = 1; // Configure GPIO19 as SPISTEA
+    GpioCtrlRegs.GPADIR.bit.GPIO19 = 1;
+    //GpioCtrlRegs.GPAMUX2.bit.GPIO19 = 1; // Configure GPIO19 as SPISTEA
+    GpioCtrlRegs.GPAMUX2.bit.GPIO19 = 0; // Configure GPIO19 as GPIO19
 
 
     //Register settings for use with pins 58,59,60,61
