@@ -45,11 +45,11 @@ void InitSpi(void)
 
     // Set reset low before configuration changes
     // Clock polarity (0 == rising, 1 == falling)
-    // 16-bit character
-    // Enable loop-back
-    SpiaRegs.SPICCR.bit.SPISWRESET = 0;
+    // 8-bit character
+    // Disable loop-back
+    SpiaRegs.SPICCR.bit.SPISWRESET = 0; // reset Peripheral
     SpiaRegs.SPICCR.bit.CLKPOLARITY = 0;
-    SpiaRegs.SPICCR.bit.SPICHAR = (8 - 1);
+    SpiaRegs.SPICCR.bit.SPICHAR = 0x7;
     SpiaRegs.SPICCR.bit.SPILBK = 0;
 
     // Enable master (0 == slave, 1 == master)

@@ -133,7 +133,8 @@ void main(void)
     //
     // Step 4. Initialize the Device Peripherals:
     //
-    spi_fifo_init();     // Initialize the SPI FIFO
+    //spi_fifo_init();     // Initialize the SPI FIFO
+    InitSpi();
 
     //
     // Step 5. User specific code:
