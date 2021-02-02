@@ -10,6 +10,7 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
+"./7segment.obj" \
 "./main.obj" \
 "./Common/F2837xD_DefaultISR.obj" \
 "./Common/F2837xD_Gpio.obj" \
@@ -169,8 +170,8 @@ UGent_Metabolische_Kamer.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "main.obj" "Common\F2837xD_DefaultISR.obj" "Common\F2837xD_Gpio.obj" "Common\F2837xD_PieCtrl.obj" "Common\F2837xD_PieVect.obj" "Common\F2837xD_Sci.obj" "Common\F2837xD_Spi.obj" "Common\F2837xD_SysCtrl.obj" "Common\F2837xD_sci_io.obj" "Common\F2837xD_usDelay.obj" "Header\F2837xD_GlobalVariableDefs.obj" 
-	-$(RM) "main.d" "Common\F2837xD_DefaultISR.d" "Common\F2837xD_Gpio.d" "Common\F2837xD_PieCtrl.d" "Common\F2837xD_PieVect.d" "Common\F2837xD_Sci.d" "Common\F2837xD_Spi.d" "Common\F2837xD_SysCtrl.d" "Common\F2837xD_sci_io.d" "Header\F2837xD_GlobalVariableDefs.d" 
+	-$(RM) "7segment.obj" "main.obj" "Common\F2837xD_DefaultISR.obj" "Common\F2837xD_Gpio.obj" "Common\F2837xD_PieCtrl.obj" "Common\F2837xD_PieVect.obj" "Common\F2837xD_Sci.obj" "Common\F2837xD_Spi.obj" "Common\F2837xD_SysCtrl.obj" "Common\F2837xD_sci_io.obj" "Common\F2837xD_usDelay.obj" "Header\F2837xD_GlobalVariableDefs.obj" 
+	-$(RM) "7segment.d" "main.d" "Common\F2837xD_DefaultISR.d" "Common\F2837xD_Gpio.d" "Common\F2837xD_PieCtrl.d" "Common\F2837xD_PieVect.d" "Common\F2837xD_Sci.d" "Common\F2837xD_Spi.d" "Common\F2837xD_SysCtrl.d" "Common\F2837xD_sci_io.d" "Header\F2837xD_GlobalVariableDefs.d" 
 	-$(RM) "Common\F2837xD_usDelay.d" 
 	-@echo 'Finished clean'
 	-@echo ' '

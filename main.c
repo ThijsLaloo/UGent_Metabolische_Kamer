@@ -33,6 +33,7 @@
 //
 #include "F28x_Project.h"
 #include "stdlib.h"
+#include "7segment.h"
 
 //
 // Function Prototypes
@@ -51,12 +52,13 @@ void scia_msg(char *msg);
 // Globals
 //
 Uint16 LoopCount;
-Uint16 mawAdcMeasurements[2] = {0}; // initialize global buffer for ADC measurements
+Uint16 mawAdcMeasurements[2] = { 0 }; // initialize global buffer for ADC measurements
 
 #define CHECK_BIT(var,pos) ((var) & (1<<(pos)))
 
 void main(void)
 {
+
     Uint16 rdata;  // received data
     int msb;
     int lsb;
@@ -139,6 +141,13 @@ void main(void)
 
     //
     // Step 5. User specific code:
+
+
+
+    sevenSeg_init();
+    sevenSeg_clear();
+    DELAY_US(1E6);
+    sevenSeg_writeDisco();
 
     scia_fifo_init();       // Initialize the SCI FIFO
     scia_echoback_init();   // Initialize SCI for echoback
@@ -227,9 +236,8 @@ void main(void)
         msg = "value: ";
         scia_msg(msg);
 
-
         /*readArray[0] = msb;
-        readArray[1] = lsb;*/
+         readArray[1] = lsb;*/
 
         /*scia_xmit(readArray[0]);
          msg = "   ";
@@ -237,43 +245,56 @@ void main(void)
          scia_xmit(readArray[1]);*/
 
         //msg = printf("Character is %c \n", readArray[0]);
-
         //scia_msg(msg);
-
         //scia_msg(readArray);
-
         //msg = "\r\n";
         //scia_msg(msg);
-
         char msgg[20];
         //ltoa(readArray[0], msgg, 2);
-        int iAdcCode = (int)mawAdcMeasurements[0];
-        double dTcVoltage = ((double)iAdcCode * 2.048/32) / 32768;
-        ltoa((int)(dTcVoltage * 1000), msgg, 10);
+        int iAdcCode = (int) mawAdcMeasurements[0];
+
+        ltoa(iAdcCode, msgg, 10);
+        scia_msg(msgg);
+        msg = "\r\n";
+        scia_msg(msg);
+
+        double dTcVoltage = ((double) iAdcCode * 2.048 / 32.0) / 32768.0;
+        ltoa((int) (dTcVoltage * 10000000000), msgg, 10);
         scia_msg(msgg);
 
         msg = "   ";
         scia_msg(msg);
 
         //ltoa(readArray[1], msgg, 2);
-        ltoa((int)mawAdcMeasurements[1], msgg, 10);
+        ltoa((int) mawAdcMeasurements[1], msgg, 10);
         scia_msg(msgg);
 
         msg = "\r\n";
         scia_msg(msg);
 
-    /*if (CHECK_BIT(readArray[1], 6 - 1) == 0)
-     {
-     msg = "Tis positief\r\n";
-     scia_msg(msg);
-     }
-     else
-     {
-     msg = "Tis negatief\r\n";
-     scia_msg(msg);
-     }*/
+        double num = 4.123;
 
-}
+        char output[50];
+
+        sprintf(output, 50, "%f", num);
+
+        scia_msg(output);
+
+        msg = "\r\n";
+        scia_msg(msg);
+
+        /*if (CHECK_BIT(readArray[1], 6 - 1) == 0)
+         {
+         msg = "Tis positief\r\n";
+         scia_msg(msg);
+         }
+         else
+         {
+         msg = "Tis negatief\r\n";
+         scia_msg(msg);
+         }*/
+
+    }
 }
 
 //
@@ -303,7 +324,7 @@ void error(void)
 //
 void spi_xmit(unsigned char a)
 {
-    SpiaRegs.SPITXBUF = (Uint16)a << 8;
+    SpiaRegs.SPITXBUF = (Uint16) a << 8;
     DELAY_US(1E2);
 }
 

@@ -67,6 +67,7 @@ main.obj: C:/ti/controlSUITE/device_support/F2837xD/v210/F2837xD_common/include/
 main.obj: C:/ti/controlSUITE/device_support/F2837xD/v210/F2837xD_common/include/F2837xD_defaultisr.h
 main.obj: C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-c2000_20.2.1.LTS/include/stdlib.h
 main.obj: C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-c2000_20.2.1.LTS/include/stdlibf.h
+main.obj: ../7segment.h
 
 ../main.c: 
 C:/ti/controlSUITE/device_support/F2837xD/v210/F2837xD_common/include/F28x_Project.h: 
@@ -135,3 +136,4 @@ C:/ti/controlSUITE/device_support/F2837xD/v210/F2837xD_common/include/F2837xD_Up
 C:/ti/controlSUITE/device_support/F2837xD/v210/F2837xD_common/include/F2837xD_defaultisr.h: 
 C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-c2000_20.2.1.LTS/include/stdlib.h: 
 C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-c2000_20.2.1.LTS/include/stdlibf.h: 
+../7segment.h: 
