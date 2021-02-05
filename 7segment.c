@@ -3,7 +3,7 @@
 
 #define SEVENSEG_CLK_GPIO       4
 #define SEVENSEG_DIO_GPIO       3
-#define SEVENSEG_CLK_PERIOD     600
+#define SEVENSEG_CLK_PERIOD     20 // µs
 #define SEVENSEG_NEG_IDX        16 // in sevenSeg_numberArray
 #define SEVENSEG_BLANK_IDX      17 // in sevenSeg_numberArray
 
