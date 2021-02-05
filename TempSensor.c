@@ -5,7 +5,7 @@
 #define TC_LUTENTRIES           9
 
 
-float TempSensor_CalculateChipTemp(uint16_t uiChipTempValueRaw);
+int TempSensor_CalculateChipTemp(uint16_t uiChipTempValueRaw);
 int TempSensor_KTcVoltToTemp(long fVoltageMicroV);
 long TempSensor_KTcTempToVolt(int iTempCx100);
 
@@ -26,6 +26,7 @@ int TempSensor_CalculateTempCx100(uint16_t uiTcValueRaw, uint16_t uiChipTempValu
     int iReturnValue = 0;
 
     int iChipTemp = TempSensor_CalculateChipTemp(uiChipTempValueRaw);
+    iReturnValue = iChipTemp;
 
     return iReturnValue;
 }
@@ -50,20 +51,22 @@ int TempSensor_CalculateChipTemp(uint16_t uiChipTempValueRaw)
 int TempSensor_KTcVoltToTemp(long lVoltageMicroV)
 {
     int iLUTIdxCnt = 0;
+    int iTemp = 0;
 
     for(iLUTIdxCnt = 0; iLUTIdxCnt < TC_LUTENTRIES; iLUTIdxCnt++)
     {
-        if(lVoltageMicroV > malKTcVoltLUT[iLUTIdxCnt])1
+        if(lVoltageMicroV > malKTcVoltLUT[iLUTIdxCnt])
         {
             break;
         }
     }
-
+    return iTemp;
 }
 
 long TempSensor_KTcTempToVolt(int iTempCx100)
 {
     int iLUTIdxCnt = 0;
+    long lVolt = 0;
 
     for(iLUTIdxCnt = 0; iLUTIdxCnt < TC_LUTENTRIES; iLUTIdxCnt++)
     {
@@ -72,4 +75,6 @@ long TempSensor_KTcTempToVolt(int iTempCx100)
             break;
         }
     }
+
+    return lVolt;
 }

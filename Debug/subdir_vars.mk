@@ -10,26 +10,32 @@ CMD_SRCS += \
 
 C_SRCS += \
 ../7segment.c \
+../TempSensor.c \
 ../main.c 
 
 C_DEPS += \
 ./7segment.d \
+./TempSensor.d \
 ./main.d 
 
 OBJS += \
 ./7segment.obj \
+./TempSensor.obj \
 ./main.obj 
 
 OBJS__QUOTED += \
 "7segment.obj" \
+"TempSensor.obj" \
 "main.obj" 
 
 C_DEPS__QUOTED += \
 "7segment.d" \
+"TempSensor.d" \
 "main.d" 
 
 C_SRCS__QUOTED += \
 "../7segment.c" \
+"../TempSensor.c" \
 "../main.c" 
 
 

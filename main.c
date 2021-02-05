@@ -34,6 +34,7 @@
 #include "F28x_Project.h"
 #include "stdlib.h"
 #include "7segment.h"
+#include "TempSensor.h"
 
 //
 // Function Prototypes
@@ -226,7 +227,8 @@ void main(void)
 
 
 
-        sevenSeg_writeTemp(237);
+        //sevenSeg_writeTemp(237);
+        sevenSeg_writeTemp(TempSensor_CalculateTempCx100(mawAdcMeasurements[0], mawAdcMeasurements[1]));
 
         /*msg = "value: ";
         scia_msg(msg);
