@@ -4,3 +4,5 @@ Debug/UGent_Metabolische_Kamer.out
 *.map
 *.obj
 Debug/Common/F2837xD_Spi.obj
+/Release/
+/Debug/

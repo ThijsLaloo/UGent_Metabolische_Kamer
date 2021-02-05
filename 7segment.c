@@ -3,7 +3,7 @@
 
 #define SEVENSEG_CLK_GPIO       4
 #define SEVENSEG_DIO_GPIO       3
-#define SEVENSEG_CLK_PERIOD     1000
+#define SEVENSEG_CLK_PERIOD     600
 #define SEVENSEG_NEG_IDX        16 // in sevenSeg_numberArray
 #define SEVENSEG_BLANK_IDX      17 // in sevenSeg_numberArray
 
@@ -12,9 +12,9 @@ int sevenSeg_writeStart();
 int sevenSeg_writeStop();
 int sevenSeg_readAck();
 
-int sevenSeg_numberArray[] = {0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x07, // 0..7
-                              0x7F, 0x6f, 0x77, 0x7c, 0x58, 0x5e, 0x79, 0x71, // 8..F
-                              0x40, 0x00}; // -, blank
+int sevenSeg_numberArray[] = { 0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x07, // 0..7
+                               0x7F, 0x6f, 0x77, 0x7c, 0x58, 0x5e, 0x79, 0x71, // 8..F
+                               0x40, 0x00 }; // -, blank
 
 //Public functions
 
@@ -66,10 +66,10 @@ int sevenSeg_clear()
 
 int sevenSeg_writeTemp(int iTemp)
 {
-    char baSegments[4] = {0};
+    char baSegments[4] = { 0 };
     char bTemp = 0;
 
-    if(iTemp < 0)
+    if (iTemp < 0)
     {
         baSegments[0] = sevenSeg_numberArray[SEVENSEG_NEG_IDX];
     }
@@ -77,7 +77,24 @@ int sevenSeg_writeTemp(int iTemp)
     {
         baSegments[0] = sevenSeg_numberArray[SEVENSEG_BLANK_IDX];
     }
-    baSegments[1] = sevenSeg_numberArray[iTemp%10];
+
+    int thents = iTemp % 10;
+    int ones = (iTemp % 100) / 10;
+    int tens = (iTemp % 1000) / 100;
+
+    baSegments[1] = sevenSeg_numberArray[tens];
+    baSegments[2] = sevenSeg_numberArray[ones];
+    baSegments[3] = sevenSeg_numberArray[thents];
+
+    sevenSeg_writeByte(0x40, true);
+    sevenSeg_writeByte(0xC0, false);
+    sevenSeg_writeByte(baSegments[0], false);
+    sevenSeg_writeByte(baSegments[1], false);
+    sevenSeg_writeByte(baSegments[2], false);
+    sevenSeg_writeByte(baSegments[3], true);
+    sevenSeg_writeByte(0x8B, true);
+
+    return 0;
 }
 
 int sevenSeg_writeDisco()
@@ -94,7 +111,7 @@ int sevenSeg_writeDisco()
         }
         sevenSeg_writeByte(sevenSeg_numberArray[i], true);
         sevenSeg_writeByte(0x8B, true);
-        DELAY_US(1E6);
+        DELAY_US(1E5);
     }
     return 0;
 }

@@ -224,31 +224,14 @@ void main(void)
         EALLOW;
         GpioDataRegs.GPASET.bit.GPIO19 = 1;
 
-        //DELAY_US(1E6);
 
-        //while(SpiaRegs.SPIFFRX.bit.RXFFST !=1) { }
 
-        //DELAY_US(1E5);
+        sevenSeg_writeTemp(237);
 
-        //rdata = SpiaRegs.SPIRXBUF;
-        //SpiaRegs.SPIFFRX.bit.RXFFINTCLR=1;  // Clear Interrupt flag
-
-        msg = "value: ";
+        /*msg = "value: ";
         scia_msg(msg);
 
-        /*readArray[0] = msb;
-         readArray[1] = lsb;*/
 
-        /*scia_xmit(readArray[0]);
-         msg = "   ";
-         scia_msg(msg);
-         scia_xmit(readArray[1]);*/
-
-        //msg = printf("Character is %c \n", readArray[0]);
-        //scia_msg(msg);
-        //scia_msg(readArray);
-        //msg = "\r\n";
-        //scia_msg(msg);
         char msgg[20];
         //ltoa(readArray[0], msgg, 2);
         int iAdcCode = (int) mawAdcMeasurements[0];
