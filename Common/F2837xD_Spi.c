@@ -58,7 +58,7 @@ void InitSpi(void)
     // SPI interrupts are disabled
     SpiaRegs.SPICTL.bit.MASTER_SLAVE = 1;
     SpiaRegs.SPICTL.bit.TALK = 1;
-    SpiaRegs.SPICTL.bit.CLK_PHASE = 1;
+    SpiaRegs.SPICTL.bit.CLK_PHASE = 0; //1;
     SpiaRegs.SPICTL.bit.SPIINTENA = 0;
 
     // Set the baud rate

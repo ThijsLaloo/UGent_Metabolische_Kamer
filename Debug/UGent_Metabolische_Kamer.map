@@ -1,7 +1,7 @@
 ******************************************************************************
              TMS320C2000 Linker PC v20.2.1                     
 ******************************************************************************
->> Linked Fri Feb  5 14:25:28 2021
+>> Linked Fri Feb  5 14:40:05 2021
 
 OUTPUT FILE NAME:   <UGent_Metabolische_Kamer.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 00082e62
@@ -1148,7 +1148,7 @@ abs   0000003b  _RamfuncsRunSize
 0     00082058  _TIMER1_ISR                           
 0     00082062  _TIMER2_ISR                           
 0     00082e12  _TempSensor_CalculateChipTemp         
-0     00082e07  _TempSensor_CalculateTempCx100        
+0     00082e07  _TempSensor_CalculateTempCx10         
 0     00082e49  _TempSensor_KTcTempToVolt             
 0     00082e30  _TempSensor_KTcVoltToTemp             
 0     00082508  _UPPA_ISR                             
@@ -1434,7 +1434,7 @@ page  address   name
 0     00082de0  _scia_xmit                            
 0     00082dec  _scia_msg                             
 0     00082dff  _scia_fifo_init                       
-0     00082e07  _TempSensor_CalculateTempCx100        
+0     00082e07  _TempSensor_CalculateTempCx10         
 0     00082e12  _TempSensor_CalculateChipTemp         
 0     00082e30  _TempSensor_KTcVoltToTemp             
 0     00082e49  _TempSensor_KTcTempToVolt             
