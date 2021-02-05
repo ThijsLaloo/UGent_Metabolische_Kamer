@@ -1,10 +1,10 @@
 ******************************************************************************
              TMS320C2000 Linker PC v20.2.1                     
 ******************************************************************************
->> Linked Fri Feb  5 15:32:05 2021
+>> Linked Fri Feb  5 15:54:21 2021
 
 OUTPUT FILE NAME:   <UGent_Metabolische_Kamer.out>
-ENTRY POINT SYMBOL: "_c_int00"  address: 00082f93
+ENTRY POINT SYMBOL: "_c_int00"  address: 00082fa0
 
 
 MEMORY CONFIGURATION
@@ -23,7 +23,7 @@ PAGE 0:
   RAMGS15               0001b000   00001000  00000000  00001000  RWIX
   BEGIN                 00080000   00000002  00000000  00000002  RWIX
   FLASHA                00080002   00001ffe  00000000  00001ffe  RWIX
-  FLASHB                00082000   00002000  00001131  00000ecf  RWIX
+  FLASHB                00082000   00002000  0000113e  00000ec2  RWIX
   FLASHC                00084000   00002000  00000000  00002000  RWIX
   FLASHD                00086000   00002000  0000003b  00001fc5  RWIX
   FLASHE                00088000   00008000  00000000  00008000  RWIX
@@ -603,26 +603,26 @@ CpuSysRegsFile
 *          1    0005d300    00000082     UNINITIALIZED
                   0005d300    00000082     F2837xD_GlobalVariableDefs.obj (CpuSysRegsFile)
 
-.text      0    00082058    000010d9     
+.text      0    00082058    000010e6     
                   00082058    00000585     F2837xD_DefaultISR.obj (.text:retain)
                   000825dd    00000347     F2837xD_SysCtrl.obj (.text)
                   00082924    00000244     F2837xD_Gpio.obj (.text)
                   00082b68    0000014f     7segment.obj (.text)
                   00082cb7    00000148     main.obj (.text)
-                  00082dff    0000010c     TempSensor.obj (.text)
-                  00082f0b    00000088     rts2800_fpu32.lib : fs_div28.asm.obj (.text)
-                  00082f93    00000056                       : boot28.asm.obj (.text)
-                  00082fe9    00000050     F2837xD_Spi.obj (.text)
-                  00083039    00000029     rts2800_fpu32.lib : exit.c.obj (.text)
-                  00083062    00000028     F2837xD_PieCtrl.obj (.text)
-                  0008308a    00000026     F2837xD_PieVect.obj (.text)
-                  000830b0    00000024     rts2800_fpu32.lib : cpy_tbl.c.obj (.text)
-                  000830d4    00000022                       : i_div28.asm.obj (.text)
-                  000830f6    0000001d                       : memcpy.c.obj (.text)
-                  00083113    00000012                       : args_main.c.obj (.text)
-                  00083125    00000009                       : _lock.c.obj (.text)
-                  0008312e    00000002                       : pre_init.c.obj (.text)
-                  00083130    00000001                       : startup.c.obj (.text)
+                  00082dff    00000119     TempSensor.obj (.text)
+                  00082f18    00000088     rts2800_fpu32.lib : fs_div28.asm.obj (.text)
+                  00082fa0    00000056                       : boot28.asm.obj (.text)
+                  00082ff6    00000050     F2837xD_Spi.obj (.text)
+                  00083046    00000029     rts2800_fpu32.lib : exit.c.obj (.text)
+                  0008306f    00000028     F2837xD_PieCtrl.obj (.text)
+                  00083097    00000026     F2837xD_PieVect.obj (.text)
+                  000830bd    00000024     rts2800_fpu32.lib : cpy_tbl.c.obj (.text)
+                  000830e1    00000022                       : i_div28.asm.obj (.text)
+                  00083103    0000001d                       : memcpy.c.obj (.text)
+                  00083120    00000012                       : args_main.c.obj (.text)
+                  00083132    00000009                       : _lock.c.obj (.text)
+                  0008313b    00000002                       : pre_init.c.obj (.text)
+                  0008313d    00000001                       : startup.c.obj (.text)
 
 .ebss      1    0000a800    0000003b     UNINITIALIZED
                   0000a800    00000012     TempSensor.obj (.ebss:_malKTcVoltLUT)
@@ -642,9 +642,9 @@ MODULE SUMMARY
     .\
        7segment.obj                     335    21                 18                
        main.obj                         328    43                 3                 
-       TempSensor.obj                   268    33                 27                
+       TempSensor.obj                   281    33                 27                
     +--+--------------------------------+------+------------------+--------------------+
-       Total:                           931    97                 48                
+       Total:                           944    97                 48                
                                                                                     
     .\Common\
        F2837xD_DefaultISR.obj           1413   0                  0                 
@@ -679,7 +679,7 @@ MODULE SUMMARY
                                                                                     
        Stack:                           0      0                  512               
     +--+--------------------------------+------+------------------+--------------------+
-       Grand Total:                     4431   573                9330              
+       Grand Total:                     4444   573                9330              
 
 
 GLOBAL DATA SYMBOLS: SORTED BY DATA PAGE
@@ -880,10 +880,10 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 page  address   name                                  
 ----  -------   ----                                  
 abs   ffffffff  .text                                 
-0     00083039  C$$EXIT                               
-0     00082f0b  FS$$DIV                               
-0     000830d4  I$$DIV                                
-0     000830e5  I$$MOD                                
+0     00083046  C$$EXIT                               
+0     00082f18  FS$$DIV                               
+0     000830e1  I$$DIV                                
+0     000830f2  I$$MOD                                
 0     00082116  _ADCA1_ISR                            
 0     00082396  _ADCA2_ISR                            
 0     000823a0  _ADCA3_ISR                            
@@ -1034,7 +1034,7 @@ abs   ffffffff  .text
 1     00047800  _Emif2Regs                            
 1     00000d01  _EmuBMode                             
 1     00000d00  _EmuKey                               
-0     00083081  _EnableInterrupts                     
+0     0008308e  _EnableInterrupts                     
 0     00008037  _F28x_usDelay                         
 0     00082580  _FLASH_CORRECTABLE_ERROR_ISR          
 0     00082454  _FPU_OVERFLOW_ISR                     
@@ -1076,11 +1076,11 @@ abs   ffffffff  .text
 0     00008000  _InitFlash                            
 0     00082924  _InitGpio                             
 0     0008261a  _InitPeripheralClocks                 
-0     00083062  _InitPieCtrl                          
-0     0008308a  _InitPieVectTable                     
-0     00082fe9  _InitSpi                              
-0     00083006  _InitSpiGpio                          
-0     00083009  _InitSpiaGpio                         
+0     0008306f  _InitPieCtrl                          
+0     00083097  _InitPieVectTable                     
+0     00082ff6  _InitSpi                              
+0     00083013  _InitSpiGpio                          
+0     00083016  _InitSpiaGpio                         
 0     000825dd  _InitSysCtrl                          
 0     000826eb  _InitSysPll                           
 1     00007900  _InputXbarRegs                        
@@ -1150,10 +1150,10 @@ abs   0000003b  _RamfuncsRunSize
 0     00082152  _TIMER0_ISR                           
 0     00082058  _TIMER1_ISR                           
 0     00082062  _TIMER2_ISR                           
-0     00082e13  _TempSensor_CalculateChipTemp         
+0     00082e20  _TempSensor_CalculateChipTemp         
 0     00082dff  _TempSensor_CalculateTempCx10         
-0     00082e9e  _TempSensor_KTcTempToVolt             
-0     00082e31  _TempSensor_KTcVoltToTemp             
+0     00082eab  _TempSensor_KTcTempToVolt             
+0     00082e3e  _TempSensor_KTcVoltToTemp             
 0     00082508  _UPPA_ISR                             
 0     00082512  _USBA_ISR                             
 0     000820f8  _USER10_ISR                           
@@ -1193,26 +1193,26 @@ abs   ffffffff  ___c_args__
 abs   ffffffff  ___etext__                            
 abs   ffffffff  ___pinit__                            
 abs   ffffffff  ___text__                             
-0     00083113  __args_main                           
+0     00083120  __args_main                           
 1     0000a834  __lock                                
-0     0008312d  __nop                                 
-0     00083129  __register_lock                       
-0     00083125  __register_unlock                     
+0     0008313a  __nop                                 
+0     00083136  __register_lock                       
+0     00083132  __register_unlock                     
 1     00000400  __stack                               
-0     00083130  __system_post_cinit                   
-0     0008312e  __system_pre_init                     
+0     0008313d  __system_post_cinit                   
+0     0008313b  __system_pre_init                     
 1     0000a836  __unlock                              
-0     00083039  _abort                                
-0     00082f93  _c_int00                              
-0     000830b0  _copy_in                              
+0     00083046  _abort                                
+0     00082fa0  _c_int00                              
+0     000830bd  _copy_in                              
 1     0000a82d  _deviceOpen                           
 0     00082dab  _error                                
-0     0008303b  _exit                                 
+0     00083048  _exit                                 
 1     0000a824  _maiKTcTempLUT                        
 0     00082cb7  _main                                 
 1     0000a800  _malKTcVoltLUT                        
 1     0000a838  _mawAdcMeasurements                   
-0     000830f6  _memcpy                               
+0     00083103  _memcpy                               
 0     00082dc5  _scia_echoback_init                   
 0     00082df7  _scia_fifo_init                       
 0     00082de4  _scia_msg                             
@@ -1438,30 +1438,30 @@ page  address   name
 0     00082de4  _scia_msg                             
 0     00082df7  _scia_fifo_init                       
 0     00082dff  _TempSensor_CalculateTempCx10         
-0     00082e13  _TempSensor_CalculateChipTemp         
-0     00082e31  _TempSensor_KTcVoltToTemp             
-0     00082e9e  _TempSensor_KTcTempToVolt             
-0     00082f0b  FS$$DIV                               
-0     00082f93  _c_int00                              
-0     00082fe9  _InitSpi                              
-0     00083006  _InitSpiGpio                          
-0     00083009  _InitSpiaGpio                         
-0     00083039  C$$EXIT                               
-0     00083039  _abort                                
-0     0008303b  _exit                                 
-0     00083062  _InitPieCtrl                          
-0     00083081  _EnableInterrupts                     
-0     0008308a  _InitPieVectTable                     
-0     000830b0  _copy_in                              
-0     000830d4  I$$DIV                                
-0     000830e5  I$$MOD                                
-0     000830f6  _memcpy                               
-0     00083113  __args_main                           
-0     00083125  __register_unlock                     
-0     00083129  __register_lock                       
-0     0008312d  __nop                                 
-0     0008312e  __system_pre_init                     
-0     00083130  __system_post_cinit                   
+0     00082e20  _TempSensor_CalculateChipTemp         
+0     00082e3e  _TempSensor_KTcVoltToTemp             
+0     00082eab  _TempSensor_KTcTempToVolt             
+0     00082f18  FS$$DIV                               
+0     00082fa0  _c_int00                              
+0     00082ff6  _InitSpi                              
+0     00083013  _InitSpiGpio                          
+0     00083016  _InitSpiaGpio                         
+0     00083046  C$$EXIT                               
+0     00083046  _abort                                
+0     00083048  _exit                                 
+0     0008306f  _InitPieCtrl                          
+0     0008308e  _EnableInterrupts                     
+0     00083097  _InitPieVectTable                     
+0     000830bd  _copy_in                              
+0     000830e1  I$$DIV                                
+0     000830f2  I$$MOD                                
+0     00083103  _memcpy                               
+0     00083120  __args_main                           
+0     00083132  __register_unlock                     
+0     00083136  __register_lock                       
+0     0008313a  __nop                                 
+0     0008313b  __system_pre_init                     
+0     0008313d  __system_post_cinit                   
 0     00086000  _RamfuncsLoadStart                    
 0     0008603b  _RamfuncsLoadEnd                      
 0     00090000  _PieVectTableInit                     

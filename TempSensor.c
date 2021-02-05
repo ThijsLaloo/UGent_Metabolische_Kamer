@@ -1,6 +1,6 @@
 #include "TempSensor.h"
 
-#define ADC_CONVERSIONCONSTANT  1.95 // µV/LSB
+#define ADC_CONVERSIONCONSTANT  1.953125 // µV/LSB
 #define ADC_INTTEMPCONVCONSTANT 0.03125 // °C/LSB
 #define TC_LUTENTRIES           9
 
@@ -21,17 +21,16 @@ int maiKTcTempLUT[] = {-4000, -3000, -2000, -1000,
 // All temperatueres in °C x 100 (eg: 1.23°C --> 123) (int format)
 // All voltages in µV (long format)
 
-int TempSensor_CalculateTempCx10(uint16_t uiTcValueRaw, uint16_t uiChipTempValueRaw)
+int TempSensor_CalculateTempCx10(int16_t iTcValueRaw, uint16_t uiChipTempValueRaw)
 {
     int iReturnValue = 0;
 
     int iChipTemp = TempSensor_CalculateChipTemp(uiChipTempValueRaw);
     long lCjVoltage = TempSensor_KTcTempToVolt(iChipTemp);
+    long lTcVoltage = (long)((float)iTcValueRaw * ADC_CONVERSIONCONSTANT);
 
-//    long lTcVoltage =
-
-    iChipTemp = TempSensor_KTcVoltToTemp(lCjVoltage);
-    iReturnValue = iChipTemp / 10;
+    iReturnValue = TempSensor_KTcVoltToTemp(lCjVoltage + lTcVoltage);
+    iReturnValue = iReturnValue / 10;
 
     return iReturnValue;
 }
