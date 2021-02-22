@@ -55,16 +55,12 @@ void scia_msg(char *msg);
 //
 Uint16 LoopCount;
 Uint16 mawAdcMeasurements[2] = { 0 }; // initialize global buffer for ADC measurements
+int miSetValueDegCx10 = 15;
 
 #define CHECK_BIT(var,pos) ((var) & (1<<(pos)))
 
 void main(void)
 {
-
-    Uint16 rdata;  // received data
-    int msb;
-    int lsb;
-    //char rdata;  // received data
     char *msg;
 
     //
@@ -229,17 +225,6 @@ void main(void)
 
     }
 }
-
-//
-// delay_loop - Loop for a brief delay
-//
-/*void delay_loop()
- {
- long i;
- for (i = 0; i < 1000000; i++)
- {
- }
- }*/
 
 //
 // error - Error function that halts the debugger
