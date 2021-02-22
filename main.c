@@ -36,6 +36,7 @@
 #include "7segment.h"
 #include "TempSensor.h"
 #include "ads1120.h"
+#include "buttons.h"
 
 //
 // Function Prototypes
@@ -140,8 +141,6 @@ void main(void)
     //
     // Step 5. User specific code:
 
-
-
     sevenSeg_init();
     sevenSeg_clear(1);
     DELAY_US(1E6);
@@ -155,6 +154,7 @@ void main(void)
     scia_echoback_init();   // Initialize SCI for echoback
 
     ads1120_init();
+    buttons_init();
 
     //while(!SpiaRegs.SPISTS.INT_FLAG); //Wait till SPI complete transmission
     for (;;)
@@ -212,7 +212,7 @@ void main(void)
         msg = "\r\n";
         scia_msg(msg);
 
-        /*if (CHECK_BIT(readArray[1], 6 - 1) == 0)
+        if (CHECK_BIT(readArray[1], 6 - 1) == 0)
          {
          msg = "Tis positief\r\n";
          scia_msg(msg);

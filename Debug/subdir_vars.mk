@@ -11,31 +11,49 @@ CMD_SRCS += \
 C_SRCS += \
 ../7segment.c \
 ../TempSensor.c \
-../main.c 
+../ads1120.c \
+../buttons.c \
+../main.c \
+../plant.c 
 
 C_DEPS += \
 ./7segment.d \
 ./TempSensor.d \
-./main.d 
+./ads1120.d \
+./buttons.d \
+./main.d \
+./plant.d 
 
 OBJS += \
 ./7segment.obj \
 ./TempSensor.obj \
-./main.obj 
+./ads1120.obj \
+./buttons.obj \
+./main.obj \
+./plant.obj 
 
 OBJS__QUOTED += \
 "7segment.obj" \
 "TempSensor.obj" \
-"main.obj" 
+"ads1120.obj" \
+"buttons.obj" \
+"main.obj" \
+"plant.obj" 
 
 C_DEPS__QUOTED += \
 "7segment.d" \
 "TempSensor.d" \
-"main.d" 
+"ads1120.d" \
+"buttons.d" \
+"main.d" \
+"plant.d" 
 
 C_SRCS__QUOTED += \
 "../7segment.c" \
 "../TempSensor.c" \
-"../main.c" 
+"../ads1120.c" \
+"../buttons.c" \
+"../main.c" \
+"../plant.c" 
 
 

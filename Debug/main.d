@@ -69,6 +69,8 @@ main.obj: C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-c2000_20.2.1.LTS/include/stdli
 main.obj: C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-c2000_20.2.1.LTS/include/stdlibf.h
 main.obj: ../7segment.h
 main.obj: ../TempSensor.h
+main.obj: ../ads1120.h
+main.obj: ../buttons.h
 
 ../main.c: 
 C:/ti/controlSUITE/device_support/F2837xD/v210/F2837xD_common/include/F28x_Project.h: 
@@ -139,3 +141,5 @@ C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-c2000_20.2.1.LTS/include/stdlib.h:
 C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-c2000_20.2.1.LTS/include/stdlibf.h: 
 ../7segment.h: 
 ../TempSensor.h: 
+../ads1120.h: 
+../buttons.h: 
