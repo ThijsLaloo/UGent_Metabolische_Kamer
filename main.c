@@ -146,67 +146,26 @@ void main(void)
 
 
 
-    sevenSeg_init(1);
+    sevenSeg_init();
     sevenSeg_clear(1);
     DELAY_US(1E6);
     sevenSeg_writeDisco(1);
 
-    sevenSeg_init(2);
     sevenSeg_clear(2);
-    DELAY_US(1E6);
+    //DELAY_US(1E6);
     sevenSeg_writeDisco(2);
 
     scia_fifo_init();       // Initialize the SCI FIFO
     scia_echoback_init();   // Initialize SCI for echoback
 
     ads1120_init();
-    /*
-    EALLOW;
-    GpioDataRegs.GPASET.bit.GPIO19 = 1;
-    DELAY_US(1E5);
-
-    scia_msg("Vanaf hier starten de metingen! \r\n\r\n\r\n");
-
-    EALLOW;
-    GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;
-    //DELAY_US(1E6);
-    spi_xmit(0x43);
-    spi_xmit(0x0A);
-    spi_xmit(0x00);
-    spi_xmit(0x10);
-    spi_xmit(0x00);
-    EALLOW;
-    GpioDataRegs.GPASET.bit.GPIO19 = 1;
-*/
 
     //while(!SpiaRegs.SPISTS.INT_FLAG); //Wait till SPI complete transmission
     for (;;)
     {
         DELAY_US(5E5);
-
         mawAdcMeasurements[0] = ads1120_readThermocouple();
- /*
-        EALLOW;
-        GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;
-        spi_xmit(0x44); //WREG starting at register 01h, one byte
-        spi_xmit(0x00); // Register 1: Data Rate=20SPS, Normal mode, Single shot conversion, Temp sensor and BCS disabled
-        EALLOW;
-        GpioDataRegs.GPASET.bit.GPIO19 = 1;
 
-        DELAY_US(1E5);
-        EALLOW;
-        GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;
-        spi_xmit(0x08); // Send START/SYNC command to start conversion
-        DELAY_US(51000); // Wait for conversion to be done
-        //spi_xmit(0x10); // RDATA command to read data from thermocouple
-        spi_xmit(0x00);  // clock out 8 bits for MSB
-        rdata = (SpiaRegs.SPIRXBUF & 0xFF) << 8;
-        spi_xmit(0x00); // clock out 8 bits for LSB
-        rdata |= SpiaRegs.SPIRXBUF & 0xFF;
-        mawAdcMeasurements[0] = rdata; // Thermocouple data
-        EALLOW;
-        GpioDataRegs.GPASET.bit.GPIO19 = 1;
-*/
         ///DELAY_US(1E6);
 
         //while(SpiaRegs.SPIFFRX.bit.RXFFST !=1) { }
@@ -215,33 +174,8 @@ void main(void)
         //SpiaRegs.SPIFFRX.bit.RXFFINTCLR=1;  // Clear Interrupt flag
 
         DELAY_US(1E5);
-
-        /*
-        EALLOW;
-        GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;
-        spi_xmit(0x44);
-        spi_xmit(0x02);
-        EALLOW;
-        GpioDataRegs.GPASET.bit.GPIO19 = 1;
-
-        DELAY_US(1E5);
-        EALLOW;
-        GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;
-        spi_xmit(0x08);  // Send START/SYNC command to start conversion
-        DELAY_US(51000);
-        //spi_xmit(0x10);  // RDATA command to read data from thermocouple
-        spi_xmit(0x00);  // clock out 8 bits for MSB
-        rdata = (SpiaRegs.SPIRXBUF & 0xFF) << 8;
-        spi_xmit(0x00); // clock out 8 bits for LSB
-        rdata |= SpiaRegs.SPIRXBUF & 0xFF;
-        mawAdcMeasurements[1] = rdata; // Internal temp data
-        EALLOW;
-        GpioDataRegs.GPASET.bit.GPIO19 = 1;
-*/
-
         mawAdcMeasurements[1] = ads1120_readInternalTempSensor();
 
-        //sevenSeg_writeTemp(237);
         sevenSeg_writeTemp(TempSensor_CalculateTempCx10((int)mawAdcMeasurements[0], mawAdcMeasurements[1]), 1);
 
         /*msg = "value: ";
