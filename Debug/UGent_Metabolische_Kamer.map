@@ -1,10 +1,10 @@
 ******************************************************************************
              TMS320C2000 Linker PC v20.2.1                     
 ******************************************************************************
->> Linked Fri Feb  5 17:26:18 2021
+>> Linked Mon Feb 22 13:25:35 2021
 
 OUTPUT FILE NAME:   <UGent_Metabolische_Kamer.out>
-ENTRY POINT SYMBOL: "_c_int00"  address: 00082fa0
+ENTRY POINT SYMBOL: "_c_int00"  address: 00083065
 
 
 MEMORY CONFIGURATION
@@ -23,7 +23,7 @@ PAGE 0:
   RAMGS15               0001b000   00001000  00000000  00001000  RWIX
   BEGIN                 00080000   00000002  00000000  00000002  RWIX
   FLASHA                00080002   00001ffe  00000000  00001ffe  RWIX
-  FLASHB                00082000   00002000  0000113e  00000ec2  RWIX
+  FLASHB                00082000   00002000  00001203  00000dfd  RWIX
   FLASHC                00084000   00002000  00000000  00002000  RWIX
   FLASHD                00086000   00002000  0000003b  00001fc5  RWIX
   FLASHE                00088000   00008000  00000000  00008000  RWIX
@@ -603,26 +603,26 @@ CpuSysRegsFile
 *          1    0005d300    00000082     UNINITIALIZED
                   0005d300    00000082     F2837xD_GlobalVariableDefs.obj (CpuSysRegsFile)
 
-.text      0    00082058    000010e6     
+.text      0    00082058    000011ab     
                   00082058    00000585     F2837xD_DefaultISR.obj (.text:retain)
                   000825dd    00000347     F2837xD_SysCtrl.obj (.text)
                   00082924    00000244     F2837xD_Gpio.obj (.text)
-                  00082b68    0000014f     7segment.obj (.text)
-                  00082cb7    00000148     main.obj (.text)
-                  00082dff    00000119     TempSensor.obj (.text)
-                  00082f18    00000088     rts2800_fpu32.lib : fs_div28.asm.obj (.text)
-                  00082fa0    00000056                       : boot28.asm.obj (.text)
-                  00082ff6    00000050     F2837xD_Spi.obj (.text)
-                  00083046    00000029     rts2800_fpu32.lib : exit.c.obj (.text)
-                  0008306f    00000028     F2837xD_PieCtrl.obj (.text)
-                  00083097    00000026     F2837xD_PieVect.obj (.text)
-                  000830bd    00000024     rts2800_fpu32.lib : cpy_tbl.c.obj (.text)
-                  000830e1    00000022                       : i_div28.asm.obj (.text)
-                  00083103    0000001d                       : memcpy.c.obj (.text)
-                  00083120    00000012                       : args_main.c.obj (.text)
-                  00083132    00000009                       : _lock.c.obj (.text)
-                  0008313b    00000002                       : pre_init.c.obj (.text)
-                  0008313d    00000001                       : startup.c.obj (.text)
+                  00082b68    00000201     7segment.obj (.text)
+                  00082d69    0000015b     main.obj (.text)
+                  00082ec4    00000119     TempSensor.obj (.text)
+                  00082fdd    00000088     rts2800_fpu32.lib : fs_div28.asm.obj (.text)
+                  00083065    00000056                       : boot28.asm.obj (.text)
+                  000830bb    00000050     F2837xD_Spi.obj (.text)
+                  0008310b    00000029     rts2800_fpu32.lib : exit.c.obj (.text)
+                  00083134    00000028     F2837xD_PieCtrl.obj (.text)
+                  0008315c    00000026     F2837xD_PieVect.obj (.text)
+                  00083182    00000024     rts2800_fpu32.lib : cpy_tbl.c.obj (.text)
+                  000831a6    00000022                       : i_div28.asm.obj (.text)
+                  000831c8    0000001d                       : memcpy.c.obj (.text)
+                  000831e5    00000012                       : args_main.c.obj (.text)
+                  000831f7    00000009                       : _lock.c.obj (.text)
+                  00083200    00000002                       : pre_init.c.obj (.text)
+                  00083202    00000001                       : startup.c.obj (.text)
 
 .ebss      1    0000a800    0000003b     UNINITIALIZED
                   0000a800    00000012     TempSensor.obj (.ebss:_malKTcVoltLUT)
@@ -640,11 +640,11 @@ MODULE SUMMARY
        Module                           code   initialized data   uninitialized data
        ------                           ----   ----------------   ------------------
     .\
-       7segment.obj                     335    21                 18                
-       main.obj                         328    43                 3                 
+       7segment.obj                     513    21                 18                
+       main.obj                         347    43                 3                 
        TempSensor.obj                   281    33                 27                
     +--+--------------------------------+------+------------------+--------------------+
-       Total:                           944    97                 48                
+       Total:                           1141   97                 48                
                                                                                     
     .\Common\
        F2837xD_DefaultISR.obj           1413   0                  0                 
@@ -679,7 +679,7 @@ MODULE SUMMARY
                                                                                     
        Stack:                           0      0                  512               
     +--+--------------------------------+------+------------------+--------------------+
-       Grand Total:                     4444   573                9330              
+       Grand Total:                     4641   573                9330              
 
 
 GLOBAL DATA SYMBOLS: SORTED BY DATA PAGE
@@ -880,10 +880,10 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 page  address   name                                  
 ----  -------   ----                                  
 abs   ffffffff  .text                                 
-0     00083046  C$$EXIT                               
-0     00082f18  FS$$DIV                               
-0     000830e1  I$$DIV                                
-0     000830f2  I$$MOD                                
+0     0008310b  C$$EXIT                               
+0     00082fdd  FS$$DIV                               
+0     000831a6  I$$DIV                                
+0     000831b7  I$$MOD                                
 0     00082116  _ADCA1_ISR                            
 0     00082396  _ADCA2_ISR                            
 0     000823a0  _ADCA3_ISR                            
@@ -1034,7 +1034,7 @@ abs   ffffffff  .text
 1     00047800  _Emif2Regs                            
 1     00000d01  _EmuBMode                             
 1     00000d00  _EmuKey                               
-0     0008308e  _EnableInterrupts                     
+0     00083153  _EnableInterrupts                     
 0     00008037  _F28x_usDelay                         
 0     00082580  _FLASH_CORRECTABLE_ERROR_ISR          
 0     00082454  _FPU_OVERFLOW_ISR                     
@@ -1076,11 +1076,11 @@ abs   ffffffff  .text
 0     00008000  _InitFlash                            
 0     00082924  _InitGpio                             
 0     0008261a  _InitPeripheralClocks                 
-0     0008306f  _InitPieCtrl                          
-0     00083097  _InitPieVectTable                     
-0     00082ff6  _InitSpi                              
-0     00083013  _InitSpiGpio                          
-0     00083016  _InitSpiaGpio                         
+0     00083134  _InitPieCtrl                          
+0     0008315c  _InitPieVectTable                     
+0     000830bb  _InitSpi                              
+0     000830d8  _InitSpiGpio                          
+0     000830db  _InitSpiaGpio                         
 0     000825dd  _InitSysCtrl                          
 0     000826eb  _InitSysPll                           
 1     00007900  _InputXbarRegs                        
@@ -1150,10 +1150,10 @@ abs   0000003b  _RamfuncsRunSize
 0     00082152  _TIMER0_ISR                           
 0     00082058  _TIMER1_ISR                           
 0     00082062  _TIMER2_ISR                           
-0     00082e20  _TempSensor_CalculateChipTemp         
-0     00082dff  _TempSensor_CalculateTempCx10         
-0     00082eab  _TempSensor_KTcTempToVolt             
-0     00082e3e  _TempSensor_KTcVoltToTemp             
+0     00082ee5  _TempSensor_CalculateChipTemp         
+0     00082ec4  _TempSensor_CalculateTempCx10         
+0     00082f70  _TempSensor_KTcTempToVolt             
+0     00082f03  _TempSensor_KTcVoltToTemp             
 0     00082508  _UPPA_ISR                             
 0     00082512  _USBA_ISR                             
 0     000820f8  _USER10_ISR                           
@@ -1193,41 +1193,41 @@ abs   ffffffff  ___c_args__
 abs   ffffffff  ___etext__                            
 abs   ffffffff  ___pinit__                            
 abs   ffffffff  ___text__                             
-0     00083120  __args_main                           
+0     000831e5  __args_main                           
 1     0000a834  __lock                                
-0     0008313a  __nop                                 
-0     00083136  __register_lock                       
-0     00083132  __register_unlock                     
+0     000831ff  __nop                                 
+0     000831fb  __register_lock                       
+0     000831f7  __register_unlock                     
 1     00000400  __stack                               
-0     0008313d  __system_post_cinit                   
-0     0008313b  __system_pre_init                     
+0     00083202  __system_post_cinit                   
+0     00083200  __system_pre_init                     
 1     0000a836  __unlock                              
-0     00083046  _abort                                
-0     00082fa0  _c_int00                              
-0     000830bd  _copy_in                              
+0     0008310b  _abort                                
+0     00083065  _c_int00                              
+0     00083182  _copy_in                              
 1     0000a82d  _deviceOpen                           
-0     00082dab  _error                                
-0     00083048  _exit                                 
+0     00082e70  _error                                
+0     0008310d  _exit                                 
 1     0000a824  _maiKTcTempLUT                        
-0     00082cb7  _main                                 
+0     00082d69  _main                                 
 1     0000a800  _malKTcVoltLUT                        
 1     0000a838  _mawAdcMeasurements                   
-0     00083103  _memcpy                               
-0     00082dc5  _scia_echoback_init                   
-0     00082df7  _scia_fifo_init                       
-0     00082de4  _scia_msg                             
-0     00082dd8  _scia_xmit                            
-0     00082b91  _sevenSeg_clear                       
+0     000831c8  _memcpy                               
+0     00082e8a  _scia_echoback_init                   
+0     00082ebc  _scia_fifo_init                       
+0     00082ea9  _scia_msg                             
+0     00082e9d  _scia_xmit                            
+0     00082bb5  _sevenSeg_clear                       
 0     00082b68  _sevenSeg_init                        
 1     0000a812  _sevenSeg_numberArray                 
-0     00082c6e  _sevenSeg_readAck                     
-0     00082c87  _sevenSeg_writeByte                   
-0     00082c0b  _sevenSeg_writeDisco                  
-0     00082c44  _sevenSeg_writeStart                  
-0     00082c4d  _sevenSeg_writeStop                   
-0     00082bb1  _sevenSeg_writeTemp                   
-0     00082dbb  _spi_fifo_init                        
-0     00082dad  _spi_xmit                             
+0     00082cda  _sevenSeg_readAck                     
+0     00082d0d  _sevenSeg_writeByte                   
+0     00082c3e  _sevenSeg_writeDisco                  
+0     00082c7d  _sevenSeg_writeStart                  
+0     00082c92  _sevenSeg_writeStop                   
+0     00082bdb  _sevenSeg_writeTemp                   
+0     00082e80  _spi_fifo_init                        
+0     00082e72  _spi_xmit                             
 abs   ffffffff  binit                                 
 0     00082000  cinit                                 
 abs   ffffffff  etext                                 
@@ -1422,46 +1422,46 @@ page  address   name
 0     00082b33  _GPIO_ReadPin                         
 0     00082b4a  _GPIO_WritePin                        
 0     00082b68  _sevenSeg_init                        
-0     00082b91  _sevenSeg_clear                       
-0     00082bb1  _sevenSeg_writeTemp                   
-0     00082c0b  _sevenSeg_writeDisco                  
-0     00082c44  _sevenSeg_writeStart                  
-0     00082c4d  _sevenSeg_writeStop                   
-0     00082c6e  _sevenSeg_readAck                     
-0     00082c87  _sevenSeg_writeByte                   
-0     00082cb7  _main                                 
-0     00082dab  _error                                
-0     00082dad  _spi_xmit                             
-0     00082dbb  _spi_fifo_init                        
-0     00082dc5  _scia_echoback_init                   
-0     00082dd8  _scia_xmit                            
-0     00082de4  _scia_msg                             
-0     00082df7  _scia_fifo_init                       
-0     00082dff  _TempSensor_CalculateTempCx10         
-0     00082e20  _TempSensor_CalculateChipTemp         
-0     00082e3e  _TempSensor_KTcVoltToTemp             
-0     00082eab  _TempSensor_KTcTempToVolt             
-0     00082f18  FS$$DIV                               
-0     00082fa0  _c_int00                              
-0     00082ff6  _InitSpi                              
-0     00083013  _InitSpiGpio                          
-0     00083016  _InitSpiaGpio                         
-0     00083046  C$$EXIT                               
-0     00083046  _abort                                
-0     00083048  _exit                                 
-0     0008306f  _InitPieCtrl                          
-0     0008308e  _EnableInterrupts                     
-0     00083097  _InitPieVectTable                     
-0     000830bd  _copy_in                              
-0     000830e1  I$$DIV                                
-0     000830f2  I$$MOD                                
-0     00083103  _memcpy                               
-0     00083120  __args_main                           
-0     00083132  __register_unlock                     
-0     00083136  __register_lock                       
-0     0008313a  __nop                                 
-0     0008313b  __system_pre_init                     
-0     0008313d  __system_post_cinit                   
+0     00082bb5  _sevenSeg_clear                       
+0     00082bdb  _sevenSeg_writeTemp                   
+0     00082c3e  _sevenSeg_writeDisco                  
+0     00082c7d  _sevenSeg_writeStart                  
+0     00082c92  _sevenSeg_writeStop                   
+0     00082cda  _sevenSeg_readAck                     
+0     00082d0d  _sevenSeg_writeByte                   
+0     00082d69  _main                                 
+0     00082e70  _error                                
+0     00082e72  _spi_xmit                             
+0     00082e80  _spi_fifo_init                        
+0     00082e8a  _scia_echoback_init                   
+0     00082e9d  _scia_xmit                            
+0     00082ea9  _scia_msg                             
+0     00082ebc  _scia_fifo_init                       
+0     00082ec4  _TempSensor_CalculateTempCx10         
+0     00082ee5  _TempSensor_CalculateChipTemp         
+0     00082f03  _TempSensor_KTcVoltToTemp             
+0     00082f70  _TempSensor_KTcTempToVolt             
+0     00082fdd  FS$$DIV                               
+0     00083065  _c_int00                              
+0     000830bb  _InitSpi                              
+0     000830d8  _InitSpiGpio                          
+0     000830db  _InitSpiaGpio                         
+0     0008310b  C$$EXIT                               
+0     0008310b  _abort                                
+0     0008310d  _exit                                 
+0     00083134  _InitPieCtrl                          
+0     00083153  _EnableInterrupts                     
+0     0008315c  _InitPieVectTable                     
+0     00083182  _copy_in                              
+0     000831a6  I$$DIV                                
+0     000831b7  I$$MOD                                
+0     000831c8  _memcpy                               
+0     000831e5  __args_main                           
+0     000831f7  __register_unlock                     
+0     000831fb  __register_lock                       
+0     000831ff  __nop                                 
+0     00083200  __system_pre_init                     
+0     00083202  __system_post_cinit                   
 0     00086000  _RamfuncsLoadStart                    
 0     0008603b  _RamfuncsLoadEnd                      
 0     00090000  _PieVectTableInit                     

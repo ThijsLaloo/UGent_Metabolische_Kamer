@@ -145,10 +145,15 @@ void main(void)
 
 
 
-    sevenSeg_init();
-    sevenSeg_clear();
+    sevenSeg_init(1);
+    sevenSeg_clear(1);
     DELAY_US(1E6);
-    sevenSeg_writeDisco();
+    sevenSeg_writeDisco(1);
+
+    sevenSeg_init(2);
+    sevenSeg_clear(2);
+    DELAY_US(1E6);
+    sevenSeg_writeDisco(2);
 
     scia_fifo_init();       // Initialize the SCI FIFO
     scia_echoback_init();   // Initialize SCI for echoback
@@ -228,7 +233,7 @@ void main(void)
 
 
         //sevenSeg_writeTemp(237);
-        sevenSeg_writeTemp(TempSensor_CalculateTempCx10((int)mawAdcMeasurements[0], mawAdcMeasurements[1]));
+        sevenSeg_writeTemp(TempSensor_CalculateTempCx10((int)mawAdcMeasurements[0], mawAdcMeasurements[1]), 1);
 
         /*msg = "value: ";
         scia_msg(msg);

@@ -117,7 +117,7 @@ int sevenSeg_writeTemp(int iTemp, int iDispNumber)
     sevenSeg_writeByte(0xC0, false, iDispNumber);
     sevenSeg_writeByte(baSegments[0], false, iDispNumber);
     sevenSeg_writeByte(baSegments[1], false, iDispNumber);
-    sevenSeg_writeByte(baSegments[2], false, iDispNumber);
+    sevenSeg_writeByte(baSegments[2] + 0x80, false, iDispNumber);
     sevenSeg_writeByte(baSegments[3], true, iDispNumber);
     sevenSeg_writeByte(0x8B, true, iDispNumber);
 
@@ -198,11 +198,11 @@ int sevenSeg_writeStop(int iDispNumber)
     return 0;
 }
 
-int sevenSeg_readAck()
+int sevenSeg_readAck(int iDispNumber)
 {
+    int  iRetValue = 0;
     if (iDispNumber == 1)
     {
-        int iRetValue = 0;
         GPIO_WritePin(SEVENSEG_CLK_GPIO1, 0);
         DELAY_US(SEVENSEG_CLK_PERIOD/4);
 
@@ -213,7 +213,6 @@ int sevenSeg_readAck()
     }
     else if (iDispNumber == 2)
     {
-        int iRetValue = 0;
         GPIO_WritePin(SEVENSEG_CLK_GPIO2, 0);
         DELAY_US(SEVENSEG_CLK_PERIOD/4);
 
