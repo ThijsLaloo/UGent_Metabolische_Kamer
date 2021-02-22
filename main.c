@@ -35,6 +35,7 @@
 #include "stdlib.h"
 #include "7segment.h"
 #include "TempSensor.h"
+#include "ads1120.h"
 
 //
 // Function Prototypes
@@ -158,6 +159,8 @@ void main(void)
     scia_fifo_init();       // Initialize the SCI FIFO
     scia_echoback_init();   // Initialize SCI for echoback
 
+    ads1120_init();
+    /*
     EALLOW;
     GpioDataRegs.GPASET.bit.GPIO19 = 1;
     DELAY_US(1E5);
@@ -174,12 +177,15 @@ void main(void)
     spi_xmit(0x00);
     EALLOW;
     GpioDataRegs.GPASET.bit.GPIO19 = 1;
+*/
 
     //while(!SpiaRegs.SPISTS.INT_FLAG); //Wait till SPI complete transmission
     for (;;)
     {
         DELAY_US(5E5);
 
+        mawAdcMeasurements[0] = ads1120_readThermocouple();
+ /*
         EALLOW;
         GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;
         spi_xmit(0x44); //WREG starting at register 01h, one byte
@@ -200,7 +206,7 @@ void main(void)
         mawAdcMeasurements[0] = rdata; // Thermocouple data
         EALLOW;
         GpioDataRegs.GPASET.bit.GPIO19 = 1;
-
+*/
         ///DELAY_US(1E6);
 
         //while(SpiaRegs.SPIFFRX.bit.RXFFST !=1) { }
@@ -209,6 +215,8 @@ void main(void)
         //SpiaRegs.SPIFFRX.bit.RXFFINTCLR=1;  // Clear Interrupt flag
 
         DELAY_US(1E5);
+
+        /*
         EALLOW;
         GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;
         spi_xmit(0x44);
@@ -229,8 +237,9 @@ void main(void)
         mawAdcMeasurements[1] = rdata; // Internal temp data
         EALLOW;
         GpioDataRegs.GPASET.bit.GPIO19 = 1;
+*/
 
-
+        mawAdcMeasurements[1] = ads1120_readInternalTempSensor();
 
         //sevenSeg_writeTemp(237);
         sevenSeg_writeTemp(TempSensor_CalculateTempCx10((int)mawAdcMeasurements[0], mawAdcMeasurements[1]), 1);
