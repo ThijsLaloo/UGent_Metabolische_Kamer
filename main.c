@@ -145,9 +145,7 @@ void main(void)
     sevenSeg_clear(1);
     DELAY_US(1E6);
     sevenSeg_writeDisco(1);
-
     sevenSeg_clear(2);
-    //DELAY_US(1E6);
     sevenSeg_writeDisco(2);
 
     scia_fifo_init();       // Initialize the SCI FIFO
@@ -155,74 +153,22 @@ void main(void)
 
     ads1120_init();
     buttons_init();
-
-    //while(!SpiaRegs.SPISTS.INT_FLAG); //Wait till SPI complete transmission
+    
+    // Enables PIE to drive a pulse into the CPU
+	PieCtrlRegs.PIEACK.all = 0xFFFF;
+    
+    // Enable global interrupts and realtime debug
+    EINT;
+    
     for (;;)
     {
+        buttons_checkPress();
         DELAY_US(5E5);
         mawAdcMeasurements[0] = ads1120_readThermocouple();
-
-        ///DELAY_US(1E6);
-
-        //while(SpiaRegs.SPIFFRX.bit.RXFFST !=1) { }
-
-        //rdata = SpiaRegs.SPIRXBUF;
-        //SpiaRegs.SPIFFRX.bit.RXFFINTCLR=1;  // Clear Interrupt flag
-
         DELAY_US(1E5);
         mawAdcMeasurements[1] = ads1120_readInternalTempSensor();
 
         sevenSeg_writeTemp(TempSensor_CalculateTempCx10((int)mawAdcMeasurements[0], mawAdcMeasurements[1]), 1);
-
-        /*msg = "value: ";
-        scia_msg(msg);
-
-
-        char msgg[20];
-        //ltoa(readArray[0], msgg, 2);
-        int iAdcCode = (int) mawAdcMeasurements[0];
-
-        ltoa(iAdcCode, msgg, 10);
-        scia_msg(msgg);
-        msg = "\r\n";
-        scia_msg(msg);
-
-        double dTcVoltage = ((double) iAdcCode * 2.048 / 32.0) / 32768.0;
-        ltoa((int) (dTcVoltage * 10000000000), msgg, 10);
-        scia_msg(msgg);
-
-        msg = "   ";
-        scia_msg(msg);
-
-        //ltoa(readArray[1], msgg, 2);
-        ltoa((int) mawAdcMeasurements[1], msgg, 10);
-        scia_msg(msgg);
-
-        msg = "\r\n";
-        scia_msg(msg);
-
-        double num = 4.123;
-
-        char output[50];
-
-        sprintf(output, 50, "%f", num);
-
-        scia_msg(output);
-
-        msg = "\r\n";
-        scia_msg(msg);
-
-        if (CHECK_BIT(readArray[1], 6 - 1) == 0)
-         {
-         msg = "Tis positief\r\n";
-         scia_msg(msg);
-         }
-         else
-         {
-         msg = "Tis negatief\r\n";
-         scia_msg(msg);
-         }*/
-
     }
 }
 
