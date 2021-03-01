@@ -65,6 +65,7 @@
 7segment.obj: C:/ti/controlSUITE/device_support/F2837xD/v210/F2837xD_common/include/F2837xD_SysCtrl_defines.h
 7segment.obj: C:/ti/controlSUITE/device_support/F2837xD/v210/F2837xD_common/include/F2837xD_Upp_defines.h
 7segment.obj: C:/ti/controlSUITE/device_support/F2837xD/v210/F2837xD_common/include/F2837xD_defaultisr.h
+7segment.obj: ../7segment.h
 
 ../7segment.c: 
 C:/ti/controlSUITE/device_support/F2837xD/v210/F2837xD_common/include/F28x_Project.h: 
@@ -131,3 +132,4 @@ C:/ti/controlSUITE/device_support/F2837xD/v210/F2837xD_common/include/F2837xD_Dm
 C:/ti/controlSUITE/device_support/F2837xD/v210/F2837xD_common/include/F2837xD_SysCtrl_defines.h: 
 C:/ti/controlSUITE/device_support/F2837xD/v210/F2837xD_common/include/F2837xD_Upp_defines.h: 
 C:/ti/controlSUITE/device_support/F2837xD/v210/F2837xD_common/include/F2837xD_defaultisr.h: 
+../7segment.h: 

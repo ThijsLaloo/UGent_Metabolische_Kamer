@@ -73,18 +73,18 @@ int buttons_checkPress()
     int iRetValue = 0;
     if(GPIO_ReadPin(BUTTONS_XINT1GPIO) == BUTTONS_ACTIVELEVEL)
     {
-        if(XintRegs.XINT1CTR > BUTTONS_DEBOUNCETIMETICKS)
-        {
+        //if(XintRegs.XINT1CTR > BUTTONS_DEBOUNCETIMETICKS)
+        //{
             iRetValue |= 0x1;
-        }
+        //}
     }
     
     if(GPIO_ReadPin(BUTTONS_XINT2GPIO) == BUTTONS_ACTIVELEVEL)
     {
-        if(XintRegs.XINT2CTR > BUTTONS_DEBOUNCETIMETICKS)
-        {
+        //if(XintRegs.XINT2CTR > BUTTONS_DEBOUNCETIMETICKS)
+        //{
             iRetValue |= 0x2;
-        }
+        //}
     }
     
     return iRetValue;

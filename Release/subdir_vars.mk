@@ -10,26 +10,56 @@ CMD_SRCS += \
 
 C_SRCS += \
 ../7segment.c \
-../main.c 
+../FanSpin.c \
+../TempSensor.c \
+../ads1120.c \
+../buttons.c \
+../main.c \
+../plant.c 
 
 C_DEPS += \
 ./7segment.d \
-./main.d 
+./FanSpin.d \
+./TempSensor.d \
+./ads1120.d \
+./buttons.d \
+./main.d \
+./plant.d 
 
 OBJS += \
 ./7segment.obj \
-./main.obj 
+./FanSpin.obj \
+./TempSensor.obj \
+./ads1120.obj \
+./buttons.obj \
+./main.obj \
+./plant.obj 
 
 OBJS__QUOTED += \
 "7segment.obj" \
-"main.obj" 
+"FanSpin.obj" \
+"TempSensor.obj" \
+"ads1120.obj" \
+"buttons.obj" \
+"main.obj" \
+"plant.obj" 
 
 C_DEPS__QUOTED += \
 "7segment.d" \
-"main.d" 
+"FanSpin.d" \
+"TempSensor.d" \
+"ads1120.d" \
+"buttons.d" \
+"main.d" \
+"plant.d" 
 
 C_SRCS__QUOTED += \
 "../7segment.c" \
-"../main.c" 
+"../FanSpin.c" \
+"../TempSensor.c" \
+"../ads1120.c" \
+"../buttons.c" \
+"../main.c" \
+"../plant.c" 
 
 
