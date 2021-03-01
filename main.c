@@ -42,6 +42,7 @@
 // Function Prototypes
 //
 //void delay_loop(void);
+void mainStateMachine(void);
 void spi_xmit(unsigned char a);
 void spi_fifo_init(void);
 void spi_init(void);
@@ -56,9 +57,30 @@ void scia_msg(char *msg);
 //
 Uint16 LoopCount;
 Uint16 mawAdcMeasurements[2] = { 0 }; // initialize global buffer for ADC measurements
-int miSetValueDegCx10 = 15;
+int miSetValueDegCx10 = 150;
+int miCurrTempDegCx10 = 0;
 
-#define CHECK_BIT(var,pos) ((var) & (1<<(pos)))
+//
+// Enums
+//
+enum eStates
+{
+    S_START_TC_MEASUREMENT, // TC: Thermocouple
+    S_START_ITS_MEASUREMENT, // ITS: Internal Temperature Sensor
+    S_ADC_BACKOFF, // ADC is supposed to be busy, leave it alone
+    S_ACQUIRE_CONVERSION_RESULT,
+    S_CHECK_ADC,
+    S_UPDATE_DISP1,
+    S_UPDATE_DISP2,
+    S_CHECK_BUTTON
+};
+
+//
+// Macro's
+//
+#define CHECK_BIT(var,pos)  ((var) & (1<<(pos)))
+#define DEBOUNCE_TIME       3 // 30ms
+#define CONVERSION_TIME     6 // 60ms
 
 void main(void)
 {
@@ -162,14 +184,164 @@ void main(void)
     
     for (;;)
     {
-        buttons_checkPress();
-        DELAY_US(5E5);
-        mawAdcMeasurements[0] = ads1120_readThermocouple();
-        DELAY_US(1E5);
-        mawAdcMeasurements[1] = ads1120_readInternalTempSensor();
+        //buttons_checkPress();
+        DELAY_US(10E3);
+        //mawAdcMeasurements[0] = ads1120_readThermocouple();
+        //mawAdcMeasurements[1] = ads1120_readInternalTempSensor();
 
-        sevenSeg_writeTemp(TempSensor_CalculateTempCx10((int)mawAdcMeasurements[0], mawAdcMeasurements[1]), 1);
+        ads1120_cfgChThermocouple();
+        ads1120_startConversion();
+        DELAY_US(51000);
+        mawAdcMeasurements[0] = ads1120_getConversionResult();
+
+        ads1120_cfgChInternalTempSensor();
+        ads1120_startConversion();
+        DELAY_US(51000);
+        mawAdcMeasurements[1] = ads1120_getConversionResult();
+
+        miCurrTempDegCx10 = TempSensor_CalculateTempCx10((int)mawAdcMeasurements[0], (int)mawAdcMeasurements[1]);
+
+        mainStateMachine();
     }
+}
+
+void mainStateMachine(void)
+{
+    static enum eStates eState = S_UPDATE_DISP1;//S_CHECK_ADC;
+    static int iDebounceCnt = 0;
+    static unsigned char bSmExecCnt = 0;
+    static bool biTcAcqBusy = false;
+    static unsigned char bTcAcqStartCnt = 0;
+    static bool biItsAcqBusy = false;
+    static unsigned char bItsAcqStartCnt = 0;
+    int iBtnState = 0;
+
+    switch(eState)
+    {
+        case S_CHECK_ADC:
+            if(biTcAcqBusy)
+            {
+                if(bSmExecCnt >= (bTcAcqStartCnt + CONVERSION_TIME))
+                {
+                    // Thermocouple conversion is ready, read and save value and...
+                    mawAdcMeasurements[0] = ads1120_getConversionResult();
+                    biTcAcqBusy = false;
+                    // ...start an ITS measurement
+                    eState = S_START_ITS_MEASUREMENT;
+                    //break;
+                }
+                else
+                {
+                    // busy acquiring TC value...
+                    eState = S_UPDATE_DISP1;
+                    //break;
+                }
+            }
+            else
+            {
+                if(biItsAcqBusy)
+                {
+                    if(bSmExecCnt >= (bItsAcqStartCnt + CONVERSION_TIME))
+                    {
+                        // ITS conversion is ready, read and save value and...
+                        mawAdcMeasurements[1] = ads1120_getConversionResult();
+                        biItsAcqBusy = false;
+                        // ...calculate temperature and start TC measurement
+                        miCurrTempDegCx10 = TempSensor_CalculateTempCx10((int)mawAdcMeasurements[0], (int)mawAdcMeasurements[1]);
+                        eState = S_UPDATE_DISP1;
+                        //break;
+                    }
+                    else
+                    {
+                        // busy acquiring ITS value...
+                        eState = S_UPDATE_DISP1;
+                        //break;
+                    }
+                }
+                else
+                {
+                    // Not converting, start a conversion
+                    eState = S_START_TC_MEASUREMENT;
+                    //break;
+                }
+            }
+        break;
+
+        case S_START_TC_MEASUREMENT:
+            ads1120_cfgChThermocouple();
+            ads1120_startConversion();
+            biTcAcqBusy = true;
+            bTcAcqStartCnt = bSmExecCnt; // set start of conversion timestamp
+            eState = S_UPDATE_DISP1;
+        break;
+
+        case S_START_ITS_MEASUREMENT:
+            ads1120_cfgChInternalTempSensor();
+            ads1120_startConversion();
+            biItsAcqBusy = true;
+            bItsAcqStartCnt = bSmExecCnt; // set start of conversion timestamp
+            eState = S_UPDATE_DISP1;
+        break;
+
+        case S_UPDATE_DISP1:
+            sevenSeg_writeTemp(miCurrTempDegCx10, 1);
+            eState = S_UPDATE_DISP2;
+        break;
+
+        case S_UPDATE_DISP2:
+            sevenSeg_writeTemp(miSetValueDegCx10, 2);
+            eState = S_CHECK_BUTTON;
+        break;
+
+        case S_CHECK_BUTTON:
+            iBtnState = buttons_checkPress();
+            if(iBtnState == 0)
+            {
+                iDebounceCnt = 0;
+            }
+            else
+            {
+                if(iDebounceCnt >= DEBOUNCE_TIME+1)
+                {
+                    eState = S_UPDATE_DISP1; //S_CHECK_ADC;
+                    break;
+                }
+                else
+                {
+                    iDebounceCnt += 1;
+                    if(iDebounceCnt >= DEBOUNCE_TIME)
+                    {
+                        iDebounceCnt += 1;
+                        switch(iBtnState)
+                        {
+                            case 1:
+                                miSetValueDegCx10 += 1;
+                                break;
+                            case 2:
+                                miSetValueDegCx10 -= 1;
+                                break;
+                            default:
+                                break;
+                        }
+                        eState = S_UPDATE_DISP1; //S_CHECK_ADC;
+                        break;
+                    }
+                    else
+                    {
+                        eState = S_UPDATE_DISP1; //S_CHECK_ADC;
+                        break;
+                    }
+                }
+            }
+            eState = S_UPDATE_DISP1;//S_CHECK_ADC;
+        break;
+
+        default:
+            eState = S_UPDATE_DISP1;//S_CHECK_ADC;
+        break;
+    }
+
+    bSmExecCnt += 1;
 }
 
 //
